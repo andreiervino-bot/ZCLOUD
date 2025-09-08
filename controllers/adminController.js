@@ -111,11 +111,29 @@ const changeUserPlan = async (req, res) => {
   }
 };
 
+// Adiciona esta função para remover admin:
+const removeAdmin = async (req, res) => {
+  try {
+    const { id } = req.params;
+    
+    const user = await User.findByPk(id);
+    if (!user) {
+      return res.status(404).json({ error: 'Usuário não encontrado' });
+    }
+    
+    await user.update({ is_admin: false });
+    res.json({ message: 'Admin removido com sucesso!' });
+  } catch (error) {
+    res.status(500).json({ error: 'Erro ao remover admin', details: error.message });
+  }
+};
+
 module.exports = {
   listUsers,
   getStats,
   createPlan,
   banUser,
   makeAdmin,
+  removeAdmin,
   changeUserPlan
 };

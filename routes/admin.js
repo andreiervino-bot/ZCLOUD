@@ -1,5 +1,12 @@
 const express = require('express');
-const { listUsers, getStats, createPlan, banUser, makeAdmin, changeUserPlan } = require('../controllers/adminController');
+
+const { listUsers, 
+        getStats, 
+        createPlan, 
+        banUser, 
+        makeAdmin,
+        removeAdmin,
+        changeUserPlan } = require('../controllers/adminController');
 const { authMiddleware } = require('../utils/token');
 const adminAuth = require('../middlewares/adminAuth');
 
@@ -137,5 +144,25 @@ router.post('/make-admin/:id', makeAdmin);
  *         description: Plano alterado
  */
 router.post('/change-plan', changeUserPlan);
+
+/**
+ * @swagger
+ * /api/admin/remove-admin/{id}:
+ *   post:
+ *     summary: Remover privilégios de admin
+ *     tags: [Admin]
+ *     security:
+ *       - BearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Admin removido com sucesso
+ */
+router.post('/remove-admin/:id', removeAdmin);
 
 module.exports = router;
